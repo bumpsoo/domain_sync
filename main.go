@@ -7,8 +7,24 @@ import (
 	"net/http"
 	"strings"
 	"time"
+	"log"
+	"os"
 )
 
+func main() {
+	logFile := openLogFile()
+	defer logFile.Close()
+	log.SetOutput(logFile)
+	aDomains := aDomain()
+	ip := ipAddr()
+	update(aDomains, ip)
+}
+
+func openLogFile() *os.File {
+	file, err := os.OpenFile("domain_sync.log", os.O_APPEND | os.O_CREATE | os.O_RDWR, 0644)
+	checkErr(err)
+	return file
+}
 
 func timeStamp() {
 	dt := time.Now()
@@ -18,8 +34,7 @@ func timeStamp() {
 
 func checkErr(err error) {
 	if err != nil {
-		timeStamp()
-		panic(err)
+		log.Fatal(err)
 	}
 }
 
@@ -44,7 +59,7 @@ func aDomain() []ResourceRecord {
 }
 
 func ipAddr() string {
-	resp, err := http.Get("https://ifconfig.me")
+	resp, err := http.Get("https://ifconfig.meddddd")
 	checkErr(err)
 
 	defer resp.Body.Close()
@@ -76,9 +91,4 @@ func update(aDomains []ResourceRecord, ip string) {
 		fmt.Println(updatesilo)
 	}
 }
-func main() {
-	aDomains := aDomain()
-	ip := ipAddr()
 
-	update(aDomains, ip)
-}
