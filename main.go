@@ -59,7 +59,7 @@ func aDomain() []ResourceRecord {
 }
 
 func ipAddr() string {
-	resp, err := http.Get("https://ifconfig.meddddd")
+	resp, err := http.Get("https://ifconfig.me")
 	checkErr(err)
 
 	defer resp.Body.Close()
