@@ -87,8 +87,7 @@ func update(aDomains []ResourceRecord, ip string) {
 		var updatesilo NamesiloUpdate
 		err = xml.Unmarshal(dataaa, &updatesilo)
 		checkErr(err)
-		timeStamp()
-		fmt.Println(updatesilo)
+		log.Println(updatesilo)
 	}
 }
 
